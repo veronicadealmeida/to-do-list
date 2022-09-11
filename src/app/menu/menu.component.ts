@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 
+import { PoMenuPanelItem } from '@po-ui/ng-components';
+import { Router } from '@angular/router';
+
 import { PoMenuItem } from '@po-ui/ng-components';
 
 import { MenuService } from './menu.service';
@@ -7,71 +10,35 @@ import { MenuService } from './menu.service';
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  providers: [MenuService],
-  styles: [
-    `
-      .sample-menu-header-text-color {
-        color: #9da7a9;
-      }
-    `,
-  ],
 })
 export class MenuComponent {
-  menuItemSelected: string;
+  title: string = 'Customers';
 
-  menus: Array<PoMenuItem> = [
+  constructor(private router: Router) {}
+
+  public readonly menuItems: Array<PoMenuPanelItem> = [
     {
-      label: 'Login',
-      action: this.printMenuAction.bind(this),
-      icon: 'po-icon-user',
-      shortLabel: 'Login',
+      label: 'Home',
+      action: this.changeTitle.bind(this),
+      icon: 'po-icon-home',
+      link: 'home',
     },
     {
-      label: 'Tarefas Importantes',
-      action: this.printMenuAction.bind(this),
-      icon: 'po-icon-exclamation',
-      shortLabel: 'Importante',
-      badge: { value: 1 },
-    },
-    {
-      label: 'Adicionar',
+      label: 'Adicionar Tarefa',
+      action: this.changeTitle.bind(this),
       icon: 'po-icon-plus',
-      shortLabel: 'Adicionar',
-      subItems: [
-        {
-          label: 'Tarefa',
-          action: this.printMenuAction.bind(this),
-          badge: { value: 12 },
-        },
-        {
-          label: 'Categoria',
-          action: this.printMenuAction.bind(this),
-          badge: { value: 12 },
-        },
-      ],
+      link: 'task',
     },
     {
-      label: 'Visualizar',
-      icon: 'po-icon-eye',
-      shortLabel: 'Visualizar',
-      subItems: [
-        {
-          label: 'Tarefas Pendentes',
-          action: this.printMenuAction.bind(this),
-          badge: { value: 2 },
-        },
-        {
-          label: 'Tarefas Concluídas',
-          action: this.printMenuAction.bind(this),
-          badge: { value: 12 },
-        },
-      ],
+      label: 'Histórico',
+      action: this.changeTitle.bind(this),
+      icon: 'po-icon-news',
+      link: 'task-view',
     },
   ];
 
-  constructor(public MenuService: MenuService) {}
-
-  printMenuAction(menu: PoMenuItem) {
-    this.menuItemSelected = menu.label;
+  changeTitle(menu: PoMenuPanelItem) {
+    this.title = menu.label;
+    // this.router.navigate([menu.link])
   }
 }

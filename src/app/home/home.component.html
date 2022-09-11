@@ -1,0 +1,27 @@
+<div class="po-row" id="home">
+  <po-widget
+    class="po-lg-3 po-mt-2"
+    [p-height]="200"
+    [p-primary]="true"
+    p-primary-label="Detalhes"
+    p-title="Tarefas Pendentes"
+    (p-primary-action)="openModal('pendent')"
+  >
+    <div class="po-font-title po-text-center">5</div>
+    <div class="po-text-center"></div>
+  </po-widget>
+
+  <po-widget
+    class="po-lg-3 po-mt-2"
+    [p-height]="200"
+    p-primary-label="Detalhes"
+    p-title="Tarefas Concluídas"
+    (p-primary-action)="openModal('done')"
+  >
+    <div class="po-font-title po-text-center">4</div>
+  </po-widget>
+</div>
+
+<po-modal #detailsModal [p-title]="titleDetailsModal">
+  <po-table [p-columns]="columnsDetails" [p-items]="itemsDetails"> </po-table>
+</po-modal>

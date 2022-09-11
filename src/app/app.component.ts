@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { PoMenuItem } from '@po-ui/ng-components';
 
@@ -8,11 +9,9 @@ import { PoMenuItem } from '@po-ui/ng-components';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  readonly menus: Array<PoMenuItem> = [
-    { label: 'Home', action: this.onClick.bind(this) },
-  ];
+  constructor() {}
 
-  private onClick() {
-    alert('Clicked in menu item');
-  }
+  //   nav(routeName: string) {
+  //     this.router.navigate([routeName]);
+  //   }
 }
