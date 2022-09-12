@@ -11,8 +11,8 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'task-view-', component: TaskViewComponent },
   { path: 'task', component: TaskComponent },
+  { path: 'taskview', component: TaskViewComponent },
 ];
 
 // const routes: Routes = [];

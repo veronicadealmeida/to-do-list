@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'task', component: TaskComponent },
-  { path: 'task-view', component: TaskViewComponent },
+  { path: 'taskview', component: TaskViewComponent },
 ];
 
 export class RoutesModule {}

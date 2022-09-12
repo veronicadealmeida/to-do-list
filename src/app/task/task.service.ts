@@ -7,22 +7,22 @@ export class TaskService {
   getColumns(): Array<PoTableColumn> {
     return [
       {
-        property: 'hireStatus',
+        property: 'taskStatus',
         label: 'Status',
         type: 'subtitle',
         subtitles: [
-          { value: 'hired', color: 'success', label: 'Hired', content: '1' },
+          { value: 'done', color: 'success', label: 'Concluída', content: '' },
           {
             value: 'progress',
             color: 'warning',
-            label: 'Progress',
-            content: '2',
+            label: 'Pendente',
+            content: '',
           },
           {
             value: 'canceled',
             color: 'danger',
-            label: 'Canceled',
-            content: '3',
+            label: 'Cancelada',
+            content: '',
           },
         ],
       },
@@ -34,11 +34,11 @@ export class TaskService {
     ];
   }
 
-  getHireStatus() {
+  getTaskStatus() {
     return [
-      { value: 'hired', label: 'Hired' },
-      { value: 'progress', label: 'Progress' },
-      { value: 'canceled', label: 'Canceled' },
+      { value: 'done', label: 'Concuída' },
+      { value: 'progress', label: 'Pendente' },
+      { value: 'canceled', label: 'Cancelada' },
     ];
   }
 
@@ -111,15 +111,11 @@ export class TaskService {
     ];
   }
 
-  getJobs() {
+  getCategory() {
     return [
-      { value: 'Systems Analyst', label: 'Systems Analyst' },
-      { value: 'Trainee', label: 'Trainee' },
-      { value: 'Programmer', label: 'Programmer' },
-      { value: 'Web Developer', label: 'Web developer' },
-      { value: 'Recruiter', label: 'Recruiter' },
-      { value: 'Consultant', label: 'Consultant' },
-      { value: 'DBA', label: 'DBA' },
+      { value: 'Concluída', label: 'done' },
+      { value: 'Pendente', label: 'progress' },
+      { value: 'Cancelada', label: 'canceled' },
     ];
   }
 }

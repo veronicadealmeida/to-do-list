@@ -37,14 +37,14 @@ export class MenuComponent {
       label: 'Histórico',
       action: this.changeTitle.bind(this),
       icon: 'po-icon-news',
-      link: 'task-view',
+      link: 'taskview',
       shortLabel: 'Tarefas',
     },
   ];
 
   changeTitle(menu: PoMenuPanelItem) {
     this.title = menu.label;
-    // this.router.navigate([menu.link])
+    this.router.navigate([menu.link]);
     this.collapsed = true;
   }
 }
