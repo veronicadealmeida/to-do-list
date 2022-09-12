@@ -32,7 +32,7 @@ export class TaskComponent implements OnInit {
   hiringProcessesColumns: Array<PoTableColumn>;
   hiringProcessesFiltered: Array<object>;
   jobDescription: Array<string> = [];
-  jobDescriptionOptions: Array<PoMultiselectOption>;
+  categoryDescriptionOptions: Array<PoMultiselectOption>;
   labelFilter: string = '';
   status: Array<string> = [];
   statusOptions: Array<PoCheckboxGroupOption>;
@@ -45,13 +45,6 @@ export class TaskComponent implements OnInit {
     },
     { label: 'Legislation', url: 'https://www.usa.gov/labor-laws' },
   ];
-
-  public readonly breadcrumb: PoBreadcrumb = {
-    items: [
-      { label: 'Home', action: this.beforeRedirect.bind(this) },
-      { label: 'Hiring processes' },
-    ],
-  };
 
   public readonly advancedFilterPrimaryAction: PoModalAction = {
     action: () => {
@@ -88,8 +81,8 @@ export class TaskComponent implements OnInit {
 
     this.hiringProcesses = this.taskService.getItems();
     this.hiringProcessesColumns = this.taskService.getColumns();
-    this.jobDescriptionOptions = this.taskService.getJobs();
-    this.statusOptions = this.taskService.getHireStatus();
+    this.categoryDescriptionOptions = this.taskService.getCategory();
+    this.statusOptions = this.taskService.getTaskStatus();
 
     this.hiringProcessesFiltered = [...this.hiringProcesses];
   }
@@ -120,20 +113,18 @@ export class TaskComponent implements OnInit {
     const selectedCandidate = this.hiringProcesses.find(
       (candidate) => candidate['$selected']
     );
-    switch (selectedCandidate!['hireStatus']) {
+    switch (selectedCandidate!['taskStatus']) {
       case 'progress':
-        selectedCandidate!['hireStatus'] = 'hired';
-        this.poNotification.success('Hired candidate!');
+        selectedCandidate!['taskStatus'] = 'done';
+        this.poNotification.success('Tarefa concluída!');
         break;
 
-      case 'hired':
-        this.poNotification.warning('This candidate has already been hired.');
+      case 'done':
+        this.poNotification.warning('Esta tarefa já está concluída');
         break;
 
       case 'canceled':
-        this.poNotification.error(
-          'This candidate has already been disqualified.'
-        );
+        this.poNotification.error('Esta tarefa já está cancelada.');
         break;
     }
   }
@@ -182,17 +173,5 @@ export class TaskComponent implements OnInit {
     this.hiringProcessesFiltered = [...this.hiringProcesses];
     this.status = [];
     this.jobDescription = [];
-  }
-
-  private beforeRedirect(itemBreadcrumbLabel) {
-    if (this.hiringProcesses.some((candidate) => candidate['$selected'])) {
-      this.poDialog.confirm({
-        title: `Confirm redirect to ${itemBreadcrumbLabel}`,
-        message: `There is data selected. Are you sure you want to quit?`,
-        confirm: () => this.router.navigate(['/']),
-      });
-    } else {
-      this.router.navigate(['/']);
-    }
   }
 }
