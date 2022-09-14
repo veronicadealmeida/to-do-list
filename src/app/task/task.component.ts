@@ -1,18 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ViewChild } from '@angular/core';
 
-import { PoBreadcrumb } from '@po-ui/ng-components';
+import { PoDynamicViewField, PoModalComponent } from '@po-ui/ng-components';
+
 import {
-  PoCheckboxGroupOption,
-  PoMultiselectOption,
-} from '@po-ui/ng-components';
-
-import { PoDialogService } from '@po-ui/ng-components';
-import { PoModalAction, PoModalComponent } from '@po-ui/ng-components';
-import { PoNotificationService } from '@po-ui/ng-components';
-import { PoPageAction, PoPageFilter } from '@po-ui/ng-components';
-import { PoTableColumn } from '@po-ui/ng-components';
-import { PoPageListComponent } from '@po-ui/ng-components';
+  PoPageDynamicTableActions,
+  PoPageDynamicTableCustomTableAction,
+  PoPageDynamicTableOptions,
+} from '@po-ui/ng-templates';
 
 import { TaskService } from './task.service';
 
@@ -22,156 +16,159 @@ import { TaskService } from './task.service';
   styleUrls: ['./task.component.css'],
   providers: [TaskService],
 })
-export class TaskComponent implements OnInit {
-  @ViewChild('advancedFilterModal', { static: true })
-  advancedFilterModal: PoModalComponent;
-  @ViewChild('poPageList', { static: true }) poPageList: PoPageListComponent;
+export class TaskComponent {
+  @ViewChild('userDetailModal') userDetailModal!: PoModalComponent;
 
-  disclaimerGroup;
-  hiringProcesses: Array<object>;
-  hiringProcessesColumns: Array<PoTableColumn>;
-  hiringProcessesFiltered: Array<object>;
-  jobDescription: Array<string> = [];
-  categoryDescriptionOptions: Array<PoMultiselectOption>;
-  labelFilter: string = '';
-  status: Array<string> = [];
-  statusOptions: Array<PoCheckboxGroupOption>;
+  readonly serviceApi = 'http://localhost:3002/tasks';
 
-  public readonly actions: Array<PoPageAction> = [
-    {
-      label: 'Hire',
-      action: this.hireCandidate.bind(this),
-      disabled: this.disableHireButton.bind(this),
-    },
-    { label: 'Legislation', url: 'https://www.usa.gov/labor-laws' },
+  actionsRight = true;
+  detailedTask: any;
+  quickSearchWidth: number = 3;
+  fixedFilter = false;
+
+  readonly actions: PoPageDynamicTableActions = {
+    new: '/documentation/po-page-dynamic-edit',
+    removeAll: true,
+  };
+
+  readonly categoryOptions: Array<object> = [
+    { value: 'Pessoal', label: 'Pessoal' },
+    { value: 'Profissional', label: 'Profissional' },
+    { value: 'Estudo', label: 'Estudo' },
   ];
 
-  public readonly advancedFilterPrimaryAction: PoModalAction = {
-    action: () => {
-      this.poPageList.clearInputSearch();
-      this.advancedFilterModal.close();
-      const filters = [...this.jobDescription, ...this.status];
-      this.filterAction(filters);
+  fields: Array<any> = [
+    {
+      property: 'status',
+      label: 'Status',
+      filter: true,
+      gridColumns: 6,
+      type: 'subtitle',
+      subtitles: [
+        {
+          value: 'Concluída',
+          color: 'success',
+          label: 'Concluída',
+          content: '',
+        },
+        {
+          value: 'Pendente',
+          color: 'warning',
+          label: 'Pendente',
+          content: '',
+        },
+        {
+          value: 'Cancelada',
+          color: 'danger',
+          label: 'Cancelada',
+          content: '',
+        },
+      ],
     },
-    label: 'Apply filters',
-  };
+    { property: 'title', label: 'Título', filter: true, gridColumns: 6 },
+    {
+      property: 'description',
+      label: 'description',
+      filter: true,
+      gridColumns: 6,
+    },
+    {
+      property: 'dateLimit',
+      label: 'Data Limite',
+      type: 'date',
+      gridColumns: 6,
+      visible: true,
+      allowColumnsManager: true,
+    },
+    {
+      property: 'dateDone',
+      label: 'Data de Conclusão',
+      type: 'date',
+      filter: true,
+      gridColumns: 6,
+      visible: true,
+      allowColumnsManager: true,
+    },
+    {
+      property: 'category',
+      label: 'Categoria',
+      filter: true,
+      options: this.categoryOptions,
+      gridColumns: 6,
+    },
+    { property: 'id', key: true, visible: false, filter: false },
+  ];
 
-  public readonly filterSettings: PoPageFilter = {
-    action: this.filterAction.bind(this),
-    advancedAction: this.advancedFilterActionModal.bind(this),
-    placeholder: 'Search',
-  };
+  readonly detailFields: Array<PoDynamicViewField> = [
+    {
+      property: 'status',
+      tag: true,
+    },
+    { property: 'title', label: 'Título', type: 'string' },
+    { property: 'description', label: 'Descrição:', type: 'string' },
+    { property: 'dateLimit', label: 'Data Limite:', type: 'date' },
+    { property: 'dateDone', label: 'Data de Conclusão:', type: 'date' },
+    { property: 'category', label: 'Categoria', type: 'string' },
+  ];
 
-  private disclaimers: any[] = [];
+  tableCustomActions: Array<PoPageDynamicTableCustomTableAction> = [
+    {
+      label: 'Cancelar',
+      action: this.onClickUserDetail.bind(this),
+      disabled: this.isUserInactive.bind(this),
+      icon: 'po-icon-close',
+    },
+    {
+      label: 'Excluir',
+      action: this.onClickUserDetail.bind(this),
+      disabled: this.isUserInactive.bind(this),
+      icon: 'po-icon-garbage',
+    },
+  ];
 
-  constructor(
-    private taskService: TaskService,
-    private poNotification: PoNotificationService,
-    private poDialog: PoDialogService,
-    private router: Router
-  ) {}
+  constructor(private taskService: TaskService) {}
 
-  ngOnInit() {
-    this.disclaimerGroup = {
-      title: 'Filters',
-      disclaimers: [],
-      change: this.onChangeDisclaimer.bind(this),
-      remove: this.onClearDisclaimer.bind(this),
+  onLoad(): PoPageDynamicTableOptions {
+    return {
+      fields: [
+        { property: 'id', visible: false, filter: false },
+        { property: 'status', label: 'Status', filter: true },
+        { property: 'title', label: 'Título', filter: true },
+        {
+          property: 'description',
+          label: 'description',
+          filter: true,
+        },
+        {
+          property: 'dateLimit',
+          label: 'Data Limite',
+          type: 'date',
+          filter: true,
+        },
+        {
+          property: 'dateDone',
+          label: 'Data de Conclusão',
+          type: 'date',
+          visible: true,
+          filter: true,
+          allowColumnsManager: true,
+        },
+        {
+          property: 'category',
+          label: 'category',
+          filter: true,
+        },
+      ],
     };
-
-    this.hiringProcesses = this.taskService.getItems();
-    this.hiringProcessesColumns = this.taskService.getColumns();
-    this.categoryDescriptionOptions = this.taskService.getCategory();
-    this.statusOptions = this.taskService.getTaskStatus();
-
-    this.hiringProcessesFiltered = [...this.hiringProcesses];
   }
 
-  advancedFilterActionModal() {
-    this.advancedFilterModal.open();
+  isUserInactive(task: any) {
+    return task.status === 'Cancelada';
   }
 
-  disableHireButton() {
-    return !this.hiringProcesses.find((candidate) => candidate['$selected']);
-  }
+  private onClickUserDetail(user: any) {
+    this.detailedTask = user;
 
-  filter() {
-    const filters = this.disclaimers.map((disclaimer) => disclaimer.value);
-    filters.length
-      ? this.hiringProcessesFilter(filters)
-      : this.resetFilterHiringProcess();
-  }
-
-  filterAction(labelFilter: string | Array<string>) {
-    const filter =
-      typeof labelFilter === 'string' ? [labelFilter] : [...labelFilter];
-    this.populateDisclaimers(filter);
-    this.filter();
-  }
-
-  hireCandidate() {
-    const selectedCandidate = this.hiringProcesses.find(
-      (candidate) => candidate['$selected']
-    );
-    switch (selectedCandidate!['taskStatus']) {
-      case 'progress':
-        selectedCandidate!['taskStatus'] = 'done';
-        this.poNotification.success('Tarefa concluída!');
-        break;
-
-      case 'done':
-        this.poNotification.warning('Esta tarefa já está concluída');
-        break;
-
-      case 'canceled':
-        this.poNotification.error('Esta tarefa já está cancelada.');
-        break;
-    }
-  }
-
-  hiringProcessesFilter(filters) {
-    this.hiringProcessesFiltered = this.hiringProcesses.filter((item) =>
-      Object.keys(item).some(
-        (key) =>
-          !(item[key] instanceof Object) &&
-          this.includeFilter(item[key], filters)
-      )
-    );
-  }
-
-  includeFilter(item, filters) {
-    return filters.some((filter) =>
-      String(item).toLocaleLowerCase().includes(filter.toLocaleLowerCase())
-    );
-  }
-
-  onChangeDisclaimer(disclaimers) {
-    this.disclaimers = disclaimers;
-    this.filter();
-  }
-
-  onClearDisclaimer(disclaimers) {
-    if (disclaimers.removedDisclaimer.property === 'search') {
-      this.poPageList.clearInputSearch();
-    }
-    this.disclaimers = [];
-    this.filter();
-  }
-
-  populateDisclaimers(filters: Array<any>) {
-    const property = filters.length > 1 ? 'advanced' : 'search';
-    this.disclaimers = filters.map((value) => ({ value, property }));
-
-    if (this.disclaimers && this.disclaimers.length > 0) {
-      this.disclaimerGroup.disclaimers = [...this.disclaimers];
-    } else {
-      this.disclaimerGroup.disclaimers = [];
-    }
-  }
-
-  resetFilterHiringProcess() {
-    this.hiringProcessesFiltered = [...this.hiringProcesses];
-    this.status = [];
-    this.jobDescription = [];
+    this.userDetailModal.open();
   }
 }

@@ -2,120 +2,48 @@ import { Injectable } from '@angular/core';
 
 import { PoTableColumn } from '@po-ui/ng-components';
 
+import { HttpClient } from '@angular/common/http';
+
 @Injectable()
 export class TaskService {
-  getColumns(): Array<PoTableColumn> {
-    return [
-      {
-        property: 'taskStatus',
-        label: 'Status',
-        type: 'subtitle',
-        subtitles: [
-          { value: 'done', color: 'success', label: 'Concluída', content: '' },
-          {
-            value: 'progress',
-            color: 'warning',
-            label: 'Pendente',
-            content: '',
-          },
-          {
-            value: 'canceled',
-            color: 'danger',
-            label: 'Cancelada',
-            content: '',
-          },
-        ],
-      },
-      { property: 'idCard', label: 'Identity card', type: 'string' },
-      { property: 'name', label: 'Name' },
-      { property: 'age', label: 'Age' },
-      { property: 'city', label: 'City' },
-      { property: 'jobDescription', label: 'Job description', type: 'string' },
-    ];
+  constructor(public http: HttpClient) {}
+
+  downloadCsv(endpoint: any) {
+    this.http.get(endpoint).subscribe((data: any) => {
+      const csvStr = this.parseJsonToCsv(data['items']);
+      const dataUri = 'data:text/csv;charset=utf-8,' + csvStr;
+
+      const exportFileDefaultName = 'data.csv';
+
+      const linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    });
   }
 
-  getTaskStatus() {
-    return [
-      { value: 'done', label: 'Concuída' },
-      { value: 'progress', label: 'Pendente' },
-      { value: 'canceled', label: 'Cancelada' },
-    ];
-  }
+  parseJsonToCsv(jsonData = []) {
+    if (!jsonData.length) {
+      return '';
+    }
 
-  getItems() {
-    return [
-      {
-        hireStatus: 'hired',
-        name: 'James Johnson',
-        city: 'Ontario',
-        age: 24,
-        idCard: 'AB34lxi90',
-        jobDescription: 'Systems Analyst',
-      },
-      {
-        hireStatus: 'progress',
-        name: 'Brian Brown',
-        city: 'Buffalo',
-        age: 23,
-        idCard: 'HG56lds54',
-        jobDescription: 'Trainee',
-      },
-      {
-        hireStatus: 'canceled',
-        name: 'Mary Davis',
-        city: 'Albany',
-        age: 31,
-        idCard: 'DF23cfr65',
-        jobDescription: 'Programmer',
-      },
-      {
-        hireStatus: 'hired',
-        name: 'Margaret Garcia',
-        city: 'New York',
-        age: 29,
-        idCard: 'GF45fgh34',
-        jobDescription: 'Web developer',
-      },
-      {
-        hireStatus: 'hired',
-        name: 'Emma Hall',
-        city: 'Ontario',
-        age: 34,
-        idCard: 'RF76jut21',
-        jobDescription: 'Recruiter',
-      },
-      {
-        hireStatus: 'progress',
-        name: 'Lucas Clark',
-        city: 'Utica',
-        age: 32,
-        idCard: 'HY21kgu65',
-        jobDescription: 'Consultant',
-      },
-      {
-        hireStatus: 'hired',
-        name: 'Ella Scott',
-        city: 'Ontario',
-        age: 24,
-        idCard: 'UL78flg68',
-        jobDescription: 'DBA',
-      },
-      {
-        hireStatus: 'progress',
-        name: 'Chloe Walker',
-        city: 'Albany',
-        age: 29,
-        idCard: 'JH12oli98',
-        jobDescription: 'Programmer',
-      },
-    ];
-  }
+    const keys = Object.keys(jsonData[0]);
+    const columnDelimiter = ',';
+    const lineDelimiter = '\n';
+    const csvColumnHeader = keys.join(columnDelimiter);
 
-  getCategory() {
-    return [
-      { value: 'Concluída', label: 'done' },
-      { value: 'Pendente', label: 'progress' },
-      { value: 'Cancelada', label: 'canceled' },
-    ];
+    const csvStr = jsonData.reduce((accCsvStr, currentItem) => {
+      keys.forEach((key, index) => {
+        if (index && index < keys.length - 1) {
+          accCsvStr += columnDelimiter;
+        }
+
+        accCsvStr += currentItem[key];
+      });
+
+      return accCsvStr + lineDelimiter;
+    }, csvColumnHeader + lineDelimiter);
+
+    return encodeURIComponent(csvStr);
   }
 }
