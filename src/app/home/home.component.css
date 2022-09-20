@@ -1,4 +1,26 @@
 #home {
-  margin-left: 5rem;
+  margin: 5rem;
   /* max-width: fit-content; */
+}
+
+* {
+  align-content: center;
+}
+
+.po-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.po-widget #done {
+  background-color: rgb(39, 184, 34);
+  color: rgb(39, 184, 34);
+}
+
+.po-widget,
+#done,
+done {
+  background-color: #be2929;
 }

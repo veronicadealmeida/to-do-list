@@ -19,7 +19,7 @@ import { TaskService } from './task.service';
 export class TaskComponent {
   @ViewChild('userDetailModal') userDetailModal!: PoModalComponent;
 
-  readonly serviceApi = 'http://localhost:3002/tasks';
+  readonly serviceApi = 'http://localhost:3000/tasks';
 
   actionsRight = true;
   detailedTask: any;
