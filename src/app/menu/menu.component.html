@@ -1,13 +1,17 @@
-<div class="po-wrapper-menu-panel">
-  <!-- <po-toolbar [p-title]="title"></po-toolbar> -->
-  <po-toolbar [p-title]="title" [p-show-notification]="false"></po-toolbar>
+<!-- <div>
+  <po-toolbar [p-title]="title"></po-toolbar>
 
   <po-menu
-    [p-collapsed]="true"
     [p-menus]="menuItems"
-    [p-service]="menuService"
+    [p-collapsed]="collapsed"
     [p-filter]="false"
   ></po-menu>
 
-  <!-- <po-page-default ></po-page-default> -->
+</div> -->
+<!-- <po-toolbar class="po-page-header-title" [p-title]="title"></po-toolbar> -->
+<!-- <po-menu-panel p-logo="string" [p-menus]="menuItems"></po-menu-panel> -->
+
+<div class="po-wrapper">
+  <po-menu [p-filter]="false" [p-menus]="menuItems" [p-collapsed]="true">
+  </po-menu>
 </div>

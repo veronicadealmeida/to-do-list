@@ -13,7 +13,7 @@ import { MenuService } from './menu.service';
   providers: [MenuService],
 })
 export class MenuComponent {
-  title: string = 'TO DO LIST';
+  title: string = '';
   collapsed: boolean;
 
   constructor(private router: Router, public menuService: MenuService) {}
@@ -34,10 +34,10 @@ export class MenuComponent {
       shortLabel: 'Adicionar',
     },
     {
-      label: 'Histórico',
+      label: 'Tarefas',
       action: this.changeTitle.bind(this),
       icon: 'po-icon-news',
-      link: 'taskview',
+      link: 'tasks',
       shortLabel: 'Tarefas',
     },
   ];

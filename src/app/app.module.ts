@@ -15,6 +15,8 @@ import { TaskComponent } from './task/task.component';
 import { TaskViewComponent } from './task-view/task-view.component';
 import { FormsModule } from '@angular/forms';
 import { MenuService } from './menu/menu.service';
+import { TasksComponent } from './tasks/tasks.component';
+import { CategoryComponent } from './category/category.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { MenuService } from './menu/menu.service';
     HomeComponent,
     TaskComponent,
     TaskViewComponent,
+    TasksComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
