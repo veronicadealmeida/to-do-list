@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { PoMenuPanelModule } from '@po-ui/ng-components';
 import { RouterModule, Routes } from '@angular/router';
@@ -42,7 +42,7 @@ import { CategoryComponent } from './category/category.component';
     PoModule,
     PoMenuPanelModule,
   ],
-  providers: [MenuService],
+  providers: [MenuService, { provide: <any>LOCALE_ID, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

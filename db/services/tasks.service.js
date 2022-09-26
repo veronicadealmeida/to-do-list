@@ -15,6 +15,13 @@ async function get(req, _res, _next) {
   return resp;
 }
 
+async function existTaskById(id) {
+  const tasks = await TasksRepository.get();
+  const findTask = tasks.items.findIndex((p) => p.id === parseInt(id)) !== -1;
+
+  return findTask;
+}
+
 // async function post(title, status, description, dateLimit, dateDone, category) {
 //   const taskValue = await TasksRepository.post(
 //     title,
@@ -29,4 +36,25 @@ async function createTask(task) {
   return await TasksRepository.insertTask(task);
 }
 
-export default { get, createTask };
+async function deleteTask(id) {
+  await TasksRepository.deleteTask(id);
+}
+
+async function getTask(id) {
+  const task = await TasksRepository.getTask(id);
+
+  return task;
+}
+
+async function updateTask(id, task) {
+  return await TasksRepository.updateTask(id, task);
+}
+
+export default {
+  get,
+  createTask,
+  existTaskById,
+  deleteTask,
+  getTask,
+  updateTask,
+};

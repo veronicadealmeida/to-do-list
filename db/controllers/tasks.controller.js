@@ -25,29 +25,63 @@ async function post(req, res, next) {
   }
 }
 
-// async function post(req, res, next) {
-//   let title = req.body.title;
-//   let status = req.body.status;
-//   let description = req.body.description;
-//   let dateLimit = req.body.dateLimit;
-//   let dateDone = !req.body.dateLimit;
-//   let category = !req.body.category;
+async function deleteTask(req, res, next) {
+  console.log(req.params.id);
+  try {
+    let id = req.params.id;
+    let task = req.body;
 
-//   try {
-//     res
-//       .status(201)
-//       .json(
-//         await tasksService.post(
-//           title,
-//           status,
-//           description,
-//           dateLimit,
-//           dateDone,
-//           category
-//         )
-//       );
-//   } catch (err) {
-//     next(err);
-//   }
+    if (!id) {
+      throw new Error("Id é obrigatório");
+    }
 
-export default { get, post };
+    if (!(await TasksService.existTaskById(id))) {
+      throw new Error("Id não localizado");
+    }
+
+    await TasksService.deleteTask(id);
+
+    res.end();
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function getTask(req, res, next) {
+  let id = req.params.id;
+  try {
+    if (!(await TasksService.existTaskById(id))) {
+      throw new Error("Id não localizado");
+    }
+
+    res.send(await TasksService.getTask(id));
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function updateTask(req, res, next) {
+  try {
+    let id = req.params.id;
+    let task = req.body;
+    console.log("id");
+    console.log(id);
+    console.log("task.tittle");
+    console.log(task.title);
+    if (!id || !task.title) {
+      throw new Error("Id e Título são obrigatórios");
+    }
+
+    if (!(await TasksService.existTaskById(id))) {
+      throw new Error("Id não localizado");
+    }
+
+    task = await TasksService.updateTask(id, task);
+
+    res.send(task);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export default { get, post, deleteTask, getTask, updateTask };
