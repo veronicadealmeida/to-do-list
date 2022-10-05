@@ -1,27 +1,51 @@
 import { NgModule } from '@angular/core';
-// import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { TaskComponent } from './task/task.component';
-import { TasksComponent } from './tasks/tasks.component';
+import {
+  PoPageLoginComponent,
+  PoPageLoginAuthenticationType,
+} from '@po-ui/ng-templates';
+import { AuthComponent } from './auth/auth.component';
+import { CreateTaskComponent } from './tasks/create-task/create-task.component';
+import { ListTaskComponent } from './tasks/list-task/list-task.component';
+import { DeleteTaskComponent } from './tasks/delete-task/delete-task.component';
+import { UpdateTaskComponent } from './tasks/update-task/update-task.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  //   { path: 'task', component: TaskComponent },
-  { path: 'tasks', component: TasksComponent },
-];
+  {
+    path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full',
+  },
+  {
+    path: 'auth',
+    component: AuthComponent,
+  },
 
-// const routes: Routes = [];
+  // {
+  //   path: 'loginTask',
+  //   component: LoginComponent,
+  // },
+  {
+    path: 'createTask',
+    component: CreateTaskComponent,
+  },
+  {
+    path: 'listTask',
+    component: ListTaskComponent,
+  },
+  {
+    path: 'task/deleteTask/:id',
+    component: DeleteTaskComponent,
+  },
+  {
+    path: 'task/updateTask/:id',
+    component: UpdateTaskComponent,
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-
-// export const routing: ModuleWithProviders<RouterModule> =
-//   RouterModule.forRoot(routes);

@@ -1,0 +1,36 @@
+.form-add {
+  background: #e3d2e9;
+
+  border: none;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 1rem;
+  width: 50rem;
+
+  margin-right: auto;
+  margin-left: auto;
+}
+
+h2 {
+  color: #952ebb;
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  margin: 2rem;
+}
+
+.botao {
+  margin: 5px;
+  margin-top: 50px;
+  width: 200px;
+}
+
+.div-botao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
