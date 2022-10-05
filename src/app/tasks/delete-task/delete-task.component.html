@@ -1,0 +1,20 @@
+<div>
+  <h2></h2>
+</div>
+
+<div class="form-add">
+  <po-dynamic-form
+    p-auto-focus="name"
+    [p-fields]="fields"
+    [p-validate-fields]="validateFields"
+    [p-value]="task"
+  >
+  </po-dynamic-form>
+
+  <div class="po-row div-botao">
+    <po-button class="po-md-3 botao" p-label="Excluir" (p-click)="deleteTask()">
+    </po-button>
+    <po-button class="po-md-3 botao" p-label="Cancelar" (p-click)="cancel()">
+    </po-button>
+  </div>
+</div>

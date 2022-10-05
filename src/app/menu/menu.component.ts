@@ -26,13 +26,13 @@ export class MenuComponent {
       link: 'home',
       shortLabel: 'Home',
     },
-    {
-      label: 'Adicionar Tarefa',
-      action: this.changeTitle.bind(this),
-      icon: 'po-icon-plus',
-      link: 'task',
-      shortLabel: 'Adicionar',
-    },
+    // {
+    //   label: 'Adicionar Tarefa',
+    //   action: this.changeTitle.bind(this),
+    //   icon: 'po-icon-plus',
+    //   link: 'task',
+    //   shortLabel: 'Adicionar',
+    // },
     {
       label: 'Tarefas',
       action: this.changeTitle.bind(this),

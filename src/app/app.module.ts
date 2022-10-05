@@ -1,39 +1,54 @@
+import { CreateTaskComponent } from './tasks/create-task/create-task.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { PoMenuPanelModule } from '@po-ui/ng-components';
 import { RouterModule, Routes } from '@angular/router';
-import { routes } from './app.routes';
+import { FormsModule } from '@angular/forms';
+
+import {
+  PoMenuPanelModule,
+  PoDynamicFormComponent,
+} from '@po-ui/ng-components';
+import { PoModule } from '@po-ui/ng-components';
+import { PoContainerModule } from '@po-ui/ng-components';
+import {
+  PoTemplatesModule,
+  PoPageDynamicTableCustomTableAction,
+} from '@po-ui/ng-templates';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PoModule } from '@po-ui/ng-components';
-import { PoTemplatesModule } from '@po-ui/ng-templates';
+import { routes } from './app.routes';
 import { MenuComponent } from './menu/menu.component';
-import { LoginComponent } from './login/login.component';
+import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
-import { TaskComponent } from './task/task.component';
-import { TaskViewComponent } from './task-view/task-view.component';
-import { FormsModule } from '@angular/forms';
 import { MenuService } from './menu/menu.service';
-import { TasksComponent } from './tasks/tasks.component';
+import { TasksComponent } from './task/tasks.component';
 import { CategoryComponent } from './category/category.component';
+import { DeleteTaskComponent } from './tasks/delete-task/delete-task.component';
+import { DoneTaskComponent } from './tasks/done-task/done-task.component';
+import { HeaderComponent } from './header/header.component';
+import { ListTaskComponent } from './tasks/list-task/list-task.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    AuthComponent,
     MenuComponent,
     HomeComponent,
-    TaskComponent,
-    TaskViewComponent,
     TasksComponent,
     CategoryComponent,
+    DeleteTaskComponent,
+    DoneTaskComponent,
+    HeaderComponent,
+    ListTaskComponent,
+    CreateTaskComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     PoModule,
+
     RouterModule.forRoot(routes, {
       useHash: false,
       relativeLinkResolution: 'legacy',
@@ -41,8 +56,9 @@ import { CategoryComponent } from './category/category.component';
     PoTemplatesModule,
     PoModule,
     PoMenuPanelModule,
+    PoContainerModule,
   ],
-  providers: [MenuService],
+  providers: [MenuService, PoDynamicFormComponent, DeleteTaskComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

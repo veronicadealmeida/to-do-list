@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "user": "admin",
+    "password": "admin",
+    "rememberUser": false,
+    "token": ""
+  },
+  {
+    "id": 1,
+    "user": "vda",
+    "password": "1234",
+    "rememberUser": false,
+    "token": ""
+  }
+]
