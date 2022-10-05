@@ -2,13 +2,25 @@ import TasksRepository from "../repositories/tasks.repository.js";
 
 async function get(req, _res, _next) {
   const tasksValues = await TasksRepository.get();
-  const pagina = +req.query.page || 1;
-  const limite = +req.query.pageSize || 50;
-  const salto = (pagina - 1) * limite;
+  const page = +req.query.page || 1;
+  const pageSize = +req.query.pageSize || 50;
+  const salto = (page - 1) * pageSize;
+  const regIni = (page - 1) * pageSize + 1;
+  const regFim = page * pageSize;
 
-  const post = tasksValues.items.slice(salto, salto + limite);
+  const post = tasksValues.items.slice(salto, salto + pageSize);
+  console.log("pagina", page);
+  console.log("salto", salto);
+  console.log("limite", pageSize);
+  console.log("regIni", regIni);
+  console.log("regFim", regFim);
+  console.log(
+    "page * (salto === 0 ? 1 : salto)",
+    page * (salto === 0 ? 1 : salto)
+  );
+  console.log("tasksValues.items.length", tasksValues.items.length);
   let resp = {
-    hasNext: pagina * salto < tasksValues.items.length,
+    hasNext: tasksValues.items.length > page * (salto === 0 ? pageSize : salto),
     items: post,
   };
 

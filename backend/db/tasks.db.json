@@ -2,95 +2,80 @@
   "hasNext": false,
   "items": [
     {
-      "id": 11,
-      "status": 2,
-      "title": "Task 011",
-      "description": "blá blá blá 1",
-      "dateLimit": "2022-01-01T03:00:00.000Z",
-      "dateDone": "",
-      "category": "Pessoal",
-      "actions": [
-        "canDone",
-        "canView",
-        "canSet",
-        "canCancel"
-      ]
-    },
-    {
-      "id": 23,
-      "status": 3,
-      "title": "Task 023",
-      "description": "blá blá blá 3",
-      "dateLimit": "01-03-2022",
-      "dateDone": "",
-      "category": "Profissional",
-      "actions": [
-        "canDone",
-        "canView",
-        "canSet",
-        "canCancel"
-      ]
-    },
-    {
-      "id": 24,
-      "status": 2,
-      "title": "Task 024",
-      "description": "blá blá blá 3",
-      "dateLimit": "2022-03-01T03:00:00.000Z",
-      "dateDone": "",
-      "category": "Profissional",
-      "actions": [
-        "canDone",
-        "canView",
-        "canSet",
-        "canCancel"
-      ]
-    },
-    {
-      "id": 26,
-      "status": 2,
-      "title": "Task 026",
-      "description": "blá blá blá 1",
-      "dateLimit": "01-01-2022",
-      "dateDone": "",
-      "category": "Pessoal",
-      "actions": [
-        "canDone",
-        "canView",
-        "canSet",
-        "canCancel"
-      ]
-    },
-    {
-      "id": 9,
+      "id": 47,
       "status": 1,
-      "title": "Task 009 ",
-      "description": "blá blá blá 3",
-      "dateLimit": "2022-09-25T03:00:00.000Z",
-      "dateDone": "2022-09-26T03:00:00.000Z",
-      "category": "Profissional",
-      "actions": [
-        "canDone",
-        "canView",
-        "canSet",
-        "canCancel"
-      ]
+      "title": "Tarefa nova 01",
+      "description": "Criar a tela de edição",
+      "dateLimit": "2022-10-08",
+      "category": "Estudo"
     },
     {
-      "id": 12,
+      "id": 48,
       "status": 1,
-      "title": "Task 012",
-      "description": "blá blá blá 2",
-      "dateLimit": "2022-09-26T03:00:00.000Z",
-      "dateDone": "2022-09-27T03:00:00.000Z",
-      "category": "Profissional",
-      "actions": [
-        "canDone",
-        "canView",
-        "canSet",
-        "canCancel"
-      ]
+      "title": "outra coisa",
+      "description": "estudar mais (ou menos)",
+      "dateLimit": "2022-10-21",
+      "category": "Estudo"
+    },
+    {
+      "id": 49,
+      "status": 1,
+      "title": "Letra cursiva",
+      "description": "Thuthu",
+      "dateLimit": "2022-10-29",
+      "category": "Pessoal"
+    },
+    {
+      "id": 50,
+      "status": 1,
+      "title": "estudar PO-UI",
+      "description": "oxi",
+      "category": "Trabalho"
+    },
+    {
+      "id": 51,
+      "status": 1,
+      "title": "Verificar GFT",
+      "description": "com Felipe",
+      "dateLimit": "2022-10-29",
+      "category": "Trabalho"
+    },
+    {
+      "id": 52,
+      "status": 1,
+      "title": "outra task",
+      "description": "teste",
+      "dateLimit": "2022-10-26",
+      "category": "Outra"
+    },
+    {
+      "id": 53,
+      "status": 1,
+      "title": "outra página",
+      "description": "teste",
+      "category": "Pessoal"
+    },
+    {
+      "id": 54,
+      "status": 1,
+      "title": "novo hash",
+      "description": "teste",
+      "category": "Pessoal"
+    },
+    {
+      "id": 55,
+      "status": 1,
+      "title": "novo hash 2",
+      "description": "teste",
+      "category": "Trabalho"
+    },
+    {
+      "id": 56,
+      "status": 1,
+      "title": "tersss",
+      "description": "ddddd",
+      "category": ""
     }
   ],
-  "nextId": 47
+  "nextId": 57
 }
